@@ -1,0 +1,10 @@
+name: ContentWarning
+version: '0.1-SNAPSHOT'
+main: net.masked.contentWarning.ContentWarning
+api-version: '1.21'
+authors: [Futhark (Forgotten_Devil)]
+description: Adds some things that probably shouldn't be in any Minecraft server
+commands:
+  get_content_warning_items:
+    description: Gives the player the custom sword.
+    permission: contentwarning.get_content_warning_items

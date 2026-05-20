@@ -1,0 +1,105 @@
+package net.masked.contentWarning.items;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.Consumable;
+import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+public class ItemManager {
+    public static ItemStack cubanCigar;
+    public static ItemStack cubanCigarButt;
+    public static ItemStack hempSeeds;
+    public static ItemStack marijuana;
+    public static ItemStack hemp;
+
+    // Registers the items
+    public static void init() {
+        createCubanCigar();
+        createCubanCigarButt();
+        createHempSeeds();
+        createMarijuana();
+        createHemp();
+    }
+
+    // Adds data to the Cuban Cigar
+    private static void createCubanCigar() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            NamespacedKey cigarKey = new NamespacedKey("content_warning", "cuban_cigar");
+            meta.displayName(Component.text("Cuban Cigar", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(cigarKey);
+            item.setItemMeta(meta);
+        }
+
+        NamespacedKey loopSoundKey = new NamespacedKey("content_warning", "custom.smoke_inhale");
+        item.setData(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .animation(ItemUseAnimation.TOOT_HORN)
+                .consumeSeconds(5.0f)
+                .hasConsumeParticles(false)
+                .sound(loopSoundKey)
+                .build());
+
+        item.setData(DataComponentTypes.MAX_STACK_SIZE, 1);
+        cubanCigar = item;
+    }
+
+    // Adds data to the Cuban Cigar Butt
+    private static void createCubanCigarButt() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey buttKey = new NamespacedKey("content_warning", "cuban_cigar_butt");
+            meta.displayName(Component.text("Cuban Cigar Butt", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(buttKey);
+            item.setItemMeta(meta);
+        }
+        cubanCigarButt = item;
+    }
+
+    // Adds data to the Marijuana Seeds
+    private static void createHempSeeds() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey hempSeedsKey = new NamespacedKey("content_warning", "hemp_seeds");
+            meta.displayName(Component.text("Hemp Seeds").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(hempSeedsKey);
+            item.setItemMeta(meta);
+        }
+        hempSeeds = item;
+    }
+
+    // Adds data to the Marijuana
+    private static void createMarijuana() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey marijuanaSeedsKey = new NamespacedKey("content_warning", "marijuana");
+            meta.displayName(Component.text("Marijuana").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(marijuanaSeedsKey);
+            item.setItemMeta(meta);
+        }
+        marijuana = item;
+    }
+
+    // Adds data to the Hemp
+    private static void createHemp() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey marijuanaSeedsKey = new NamespacedKey("content_warning", "hemp");
+            meta.displayName(Component.text("Hemp").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(marijuanaSeedsKey);
+            item.setItemMeta(meta);
+        }
+        hemp = item;
+    }
+}
