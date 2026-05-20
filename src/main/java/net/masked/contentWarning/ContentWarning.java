@@ -23,6 +23,7 @@ public final class ContentWarning extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.BlockDropListener(), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.InteractionItemListener(this), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CigarListener(), this);
+        this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CowInteractionListener(), this);
 
         // recipes
         net.masked.contentWarning.recipes.SmokerRecipes.register(this);

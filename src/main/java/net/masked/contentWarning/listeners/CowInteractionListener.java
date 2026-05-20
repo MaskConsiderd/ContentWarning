@@ -29,7 +29,7 @@ public class CowInteractionListener implements Listener {
         if (clickedEntity instanceof Cow cow && heldItem.getType() == Material.HAY_BLOCK) {
 
             // Define the 2% drop chance (0.02)
-            double dropChance = 0.02;
+            double dropChance = 1.0;
 
             if (Math.random() < dropChance) {
                 // Double check that the item actually exists before dropping
