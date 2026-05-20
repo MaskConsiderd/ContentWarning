@@ -17,6 +17,7 @@ public class ItemManager {
     public static ItemStack hempSeeds;
     public static ItemStack marijuana;
     public static ItemStack hemp;
+    public static ItemStack cowFeces;
 
     // Registers the items
     public static void init() {
@@ -25,6 +26,7 @@ public class ItemManager {
         createHempSeeds();
         createMarijuana();
         createHemp();
+        createCowFeces();
     }
 
     // Adds data to the Cuban Cigar
@@ -101,5 +103,18 @@ public class ItemManager {
             item.setItemMeta(meta);
         }
         hemp = item;
+    }
+
+    // Adds data to the Hemp
+    private static void createCowFeces() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey cowFecesKey = new NamespacedKey("content_warning", "cow_feces");
+            meta.displayName(Component.text("Cow Feces").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(cowFecesKey);
+            item.setItemMeta(meta);
+        }
+        cowFeces = item;
     }
 }

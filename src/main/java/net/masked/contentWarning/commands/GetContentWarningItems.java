@@ -20,6 +20,7 @@ public class GetContentWarningItems implements CommandExecutor {
         player.getInventory().addItem(ItemManager.hempSeeds);
         player.getInventory().addItem(ItemManager.marijuana);
         player.getInventory().addItem(ItemManager.hemp);
+        player.getInventory().addItem(ItemManager.cowFeces);
         return true;
     }
 }
