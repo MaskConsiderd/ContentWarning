@@ -18,6 +18,7 @@ public class ItemManager {
     public static ItemStack marijuana;
     public static ItemStack hemp;
     public static ItemStack cowFeces;
+    public static ItemStack shrooms;
 
     // Registers the items
     public static void init() {
@@ -27,6 +28,7 @@ public class ItemManager {
         createMarijuana();
         createHemp();
         createCowFeces();
+        createShrooms();
     }
 
     // Adds data to the Cuban Cigar
@@ -97,15 +99,15 @@ public class ItemManager {
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            NamespacedKey marijuanaSeedsKey = new NamespacedKey("content_warning", "hemp");
+            NamespacedKey hempKey = new NamespacedKey("content_warning", "hemp");
             meta.displayName(Component.text("Hemp").decoration(TextDecoration.ITALIC, false));
-            meta.setItemModel(marijuanaSeedsKey);
+            meta.setItemModel(hempKey);
             item.setItemMeta(meta);
         }
         hemp = item;
     }
 
-    // Adds data to the Hemp
+    // Adds data to the Cow Feces
     private static void createCowFeces() {
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta meta = item.getItemMeta();
@@ -116,5 +118,18 @@ public class ItemManager {
             item.setItemMeta(meta);
         }
         cowFeces = item;
+    }
+
+    // Adds data to the Shrooms
+    private static void createShrooms() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey shroomsKey = new NamespacedKey("content_warning", "shrooms");
+            meta.displayName(Component.text("Shrooms").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(shroomsKey);
+            item.setItemMeta(meta);
+        }
+        shrooms = item;
     }
 }
