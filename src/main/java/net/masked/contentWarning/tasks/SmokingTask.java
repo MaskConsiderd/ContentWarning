@@ -42,7 +42,7 @@ public class SmokingTask extends BukkitRunnable {
                             0.01
                     );
                 }
-                // Check if the held item is the Cuban Cigar
+                // Check if the held item is the Cigar
                 if (item != null && item.isSimilar(ItemManager.cigar)) {
 
                     // NEW: Check if the off-hand is holding Flint and Steel

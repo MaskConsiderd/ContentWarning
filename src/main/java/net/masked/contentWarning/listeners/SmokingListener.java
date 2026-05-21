@@ -17,7 +17,7 @@ public class SmokingListener implements Listener {
 
     // NEW: Prevents the player from even starting the right-click animation
     @EventHandler
-    public void onCigarUse(PlayerInteractEvent event) {
+    public void onCubanCigarUse(PlayerInteractEvent event) {
         // Check if the action is a right-click on a block or air
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
@@ -44,7 +44,7 @@ public class SmokingListener implements Listener {
     }
 
     @EventHandler
-    public void onCigarFinished(PlayerItemConsumeEvent event) {
+    public void onCubanCigarFinished(PlayerItemConsumeEvent event) {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
@@ -90,6 +90,41 @@ public class SmokingListener implements Listener {
 
             player.sendMessage("§7Your cigar has burned out down to a butt.");
         }
+    }
+
+    // NEW: Prevents the player from even starting the right-click animation
+    @EventHandler
+    public void onCigarUse(PlayerInteractEvent event) {
+        // Check if the action is a right-click on a block or air
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        // Ensure we are only evaluating the main hand interaction to prevent double-firing
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+
+        // Check if the item being right-clicked is the Cuban Cigar
+        if (item != null && item.isSimilar(ItemManager.cigar)) {
+            ItemStack offHandItem = player.getInventory().getItemInOffHand();
+
+            // Cancel the event immediately if the off-hand is not holding flint and steel
+            if (offHandItem.getType() != Material.FLINT_AND_STEEL) {
+                event.setCancelled(true);
+                player.sendMessage("§cYou need something to light this");
+            }
+        }
+    }
+
+    @EventHandler
+    public void onCigarFinished(PlayerItemConsumeEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+
         if (item.isSimilar(ItemManager.cigar)) {
 
             // Double-check condition upon completion (in case they swap items mid-animation)
@@ -118,8 +153,10 @@ public class SmokingListener implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 3 * 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 3 * 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 1, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20 * 20, 2));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20 * 20, 2));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 20 * 20, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 20 * 20, 2));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 20, 2));
 
             // Gives the Cigar Butt
             if (ItemManager.cigarButt != null) {
