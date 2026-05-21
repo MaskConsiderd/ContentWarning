@@ -12,7 +12,7 @@ public class CraftingRecipes {
 
     public static void register(JavaPlugin plugin) {
         // Validation safeguard to ensure items exist before building the recipe
-        if (ItemManager.cigar == null || ItemManager.cubanCigar == null) {
+        if (ItemManager.cigar == null || ItemManager.cubanCigar == null || ItemManager.marijuana == null) {
             return;
         }
 
@@ -20,20 +20,35 @@ public class CraftingRecipes {
         NamespacedKey cubanCigarKey = new NamespacedKey(plugin, "cuban_cigar_crafting");
 
         // Create the Shaped Recipe with the output item
-        ShapedRecipe recipe = new ShapedRecipe(cubanCigarKey, ItemManager.cubanCigar);
+        ShapedRecipe cubanCigarRecipe = new ShapedRecipe(cubanCigarKey, ItemManager.cubanCigar);
 
-        recipe.shape(
+        cubanCigarRecipe.shape(
                 "GGG",
                 "GCG",
                 "GGG"
         );
 
         // Map the characters to their corresponding items
-        recipe.setIngredient('C', new RecipeChoice.ExactChoice(ItemManager.cigar));
+        cubanCigarRecipe.setIngredient('C', new RecipeChoice.ExactChoice(ItemManager.cigar));
 
-        recipe.setIngredient('G', Material.GOLD_INGOT);
+        cubanCigarRecipe.setIngredient('G', Material.GOLD_INGOT);
 
         // Register the recipe with the server
-        Bukkit.addRecipe(recipe);
+        Bukkit.addRecipe(cubanCigarRecipe);
+
+        NamespacedKey cigarRecipeKey = new NamespacedKey(plugin, "cigar_crafting");
+
+        ShapedRecipe cigarRecipe = new ShapedRecipe(cigarRecipeKey, ItemManager.cigar);
+
+        cigarRecipe.shape(
+                " P ",
+                "PMP",
+                " P "
+        );
+
+        cigarRecipe.setIngredient('P', Material.PAPER);
+        cigarRecipe.setIngredient('M', new RecipeChoice.ExactChoice(ItemManager.marijuana));
+
+        Bukkit.addRecipe(cigarRecipe);
     }
 }
