@@ -20,6 +20,7 @@ public class ItemManager {
     public static ItemStack cowFeces;
     public static ItemStack shrooms;
     public static ItemStack cigar;
+    public static ItemStack cigarButt;
 
     // Registers the items
     public static void init() {
@@ -31,6 +32,7 @@ public class ItemManager {
         createCowFeces();
         createShrooms();
         createCigar();
+        createCigarButt();
     }
 
     // Adds data to the Cuban Cigar
@@ -135,14 +137,14 @@ public class ItemManager {
         shrooms = item;
     }
 
-    // Adds data to the Cuban Cigar
+    // Adds data to the Cigar
     private static void createCigar() {
         ItemStack item = new ItemStack(Material.PAPER);
         ItemMeta meta = item.getItemMeta();
 
         if (meta != null) {
             NamespacedKey cigarKey = new NamespacedKey("content_warning", "cigar");
-            meta.displayName(Component.text("Cuban Cigar", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+            meta.displayName(Component.text("Cigar").decoration(TextDecoration.ITALIC, false));
             meta.setItemModel(cigarKey);
             item.setItemMeta(meta);
         }
@@ -159,4 +161,16 @@ public class ItemManager {
         cigar = item;
     }
 
+    // Adds data to the Cuban Cigar Butt
+    private static void createCigarButt() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            NamespacedKey buttKey = new NamespacedKey("content_warning", "cigar_butt");
+            meta.displayName(Component.text("Cigar Butt").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(buttKey);
+            item.setItemMeta(meta);
+        }
+        cigarButt = item;
+    }
 }
