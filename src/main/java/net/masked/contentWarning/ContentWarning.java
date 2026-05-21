@@ -2,6 +2,8 @@ package net.masked.contentWarning;
 
 import net.masked.contentWarning.items.ItemManager;
 import net.masked.contentWarning.commands.GetContentWarningItems;
+import net.masked.contentWarning.listeners.SmokingListener;
+import net.masked.contentWarning.tasks.SmokingTask;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ContentWarning extends JavaPlugin {
@@ -17,12 +19,12 @@ public final class ContentWarning extends JavaPlugin {
         this.getCommand("get_content_warning_items").setExecutor(new GetContentWarningItems());
 
         // tasks
-        new net.masked.contentWarning.tasks.CigarSmokeTask().runTaskTimer(this, 0L, 15L);
+        new SmokingTask().runTaskTimer(this, 0L, 15L);
 
         // listeners
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.BlockDropListener(), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.InteractionItemListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CigarListener(), this);
+        this.getServer().getPluginManager().registerEvents(new SmokingListener(), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CowInteractionListener(), this);
 
         // recipes
