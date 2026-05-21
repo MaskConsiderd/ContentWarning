@@ -9,6 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace; // Added import
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
@@ -59,6 +60,9 @@ public class InteractionItemListener implements Listener {
     public void onPodzolRightClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
+
+        // MODIFIED: Only allow interactions on the top face of the block
+        if (event.getBlockFace() != BlockFace.UP) return;
 
         Block block = event.getClickedBlock();
         Player player = event.getPlayer();
@@ -207,7 +211,6 @@ public class InteractionItemListener implements Listener {
                 Entity oldTarget = interaction.getWorld().getEntity(oldDisplayUuid);
 
                 if (oldTarget instanceof ItemDisplay oldDisplay) {
-                    // ADJUSTED: Replaced items automatically inherit the raised Y value from the old display's position
                     Location spawnLoc = oldDisplay.getLocation();
                     oldDisplay.remove();
 
