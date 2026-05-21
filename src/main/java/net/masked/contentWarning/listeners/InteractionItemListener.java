@@ -35,21 +35,20 @@ public class InteractionItemListener implements Listener {
     private final NamespacedKey timeKey;
     private final NamespacedKey typeKey;
     private final NamespacedKey displayUuidKey;
-    private final NamespacedKey bonemealStageKey; // Key to track bonemeal count
+    private final NamespacedKey stageKey;
 
     public InteractionItemListener(JavaPlugin plugin) {
         this.timeKey = new NamespacedKey(plugin, "creation_time");
         this.typeKey = new NamespacedKey(plugin, "interaction_type");
         this.displayUuidKey = new NamespacedKey(plugin, "display_uuid");
-        this.bonemealStageKey = new NamespacedKey(plugin, "bonemeal_stage"); // Initialize key
+        this.stageKey = new NamespacedKey(plugin, "plant_stage");
 
-        // Automatically check all worlds every 5 seconds (100 ticks) for grown plants
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             for (World world : Bukkit.getWorlds()) {
                 for (Interaction interaction : world.getEntitiesByClass(Interaction.class)) {
                     PersistentDataContainer pdc = interaction.getPersistentDataContainer();
                     if (pdc.has(typeKey, PersistentDataType.STRING) && "hemp_plant".equals(pdc.get(typeKey, PersistentDataType.STRING))) {
-                        updateDisplayModelIfGrown(interaction);
+                        updatePlantStage(interaction);
                     }
                 }
             }
@@ -71,27 +70,33 @@ public class InteractionItemListener implements Listener {
             player.swingMainHand();
 
             long currentTime = block.getWorld().getFullTime();
-            Location spawnLocation = block.getLocation().add(0.5, 1.0, 0.5);
 
-            ItemDisplay itemDisplay = block.getWorld().spawn(spawnLocation, ItemDisplay.class, display -> {
+            // ADJUSTED: Interaction bounding box base location remains at y + 1.0
+            Location interactionLocation = block.getLocation().add(0.5, 1.0, 0.5);
+            // ADJUSTED: Raised by 0.5 blocks (8 pixels) for the visual element
+            Location displaySpawnLocation = block.getLocation().add(0.5, 1.5, 0.5);
+
+            // Stage 0 Initial Display
+            ItemDisplay itemDisplay = block.getWorld().spawn(displaySpawnLocation, ItemDisplay.class, display -> {
                 ItemStack modelItem = new ItemStack(Material.PAPER);
                 var meta = modelItem.getItemMeta();
                 if (meta != null) {
-                    meta.setItemModel(new NamespacedKey("content_warning", "hemp_block"));
+                    meta.setItemModel(new NamespacedKey("content_warning", "hemp_small_stage0_block"));
                     modelItem.setItemMeta(meta);
                 }
                 display.setItemStack(modelItem);
             });
 
-            block.getWorld().spawn(spawnLocation, Interaction.class, interaction -> {
+            // Stage 0 Initial Interaction Box (1 Block Tall)
+            block.getWorld().spawn(interactionLocation, Interaction.class, interaction -> {
                 interaction.setInteractionWidth(1.0f);
-                interaction.setInteractionHeight(2.0f);
+                interaction.setInteractionHeight(1.0f);
 
                 PersistentDataContainer pdc = interaction.getPersistentDataContainer();
                 pdc.set(typeKey, PersistentDataType.STRING, "hemp_plant");
                 pdc.set(timeKey, PersistentDataType.LONG, currentTime);
                 pdc.set(displayUuidKey, PersistentDataType.STRING, itemDisplay.getUniqueId().toString());
-                pdc.set(bonemealStageKey, PersistentDataType.INTEGER, 0); // Start at stage 0
+                pdc.set(stageKey, PersistentDataType.INTEGER, 0);
             });
 
             if (player.getGameMode() != GameMode.CREATIVE) {
@@ -114,32 +119,21 @@ public class InteractionItemListener implements Listener {
             if (pdc.has(typeKey, PersistentDataType.STRING) && "hemp_plant".equals(pdc.get(typeKey, PersistentDataType.STRING))) {
                 long currentTime = interaction.getWorld().getFullTime();
                 long creationTime = pdc.getOrDefault(timeKey, PersistentDataType.LONG, currentTime);
-                long oneMinecraftDay = 24000L;
 
-                // Check if the plant is not already fully grown via normal time passage
-                if (currentTime - creationTime < oneMinecraftDay) {
+                if (currentTime - creationTime < 24000L) {
                     event.setCancelled(true);
                     player.swingMainHand();
 
-                    // Get the current bonemeal stage, defaulting to 0 if not present
-                    int currentStage = pdc.getOrDefault(bonemealStageKey, PersistentDataType.INTEGER, 0);
-                    currentStage++;
+                    pdc.set(timeKey, PersistentDataType.LONG, creationTime - 8000L);
 
-                    if (currentStage >= 3) {
-                        // 3rd bonemeal: set time to fully grown and update model
-                        pdc.set(timeKey, PersistentDataType.LONG, currentTime - oneMinecraftDay);
-                        pdc.set(bonemealStageKey, PersistentDataType.INTEGER, currentStage);
-                        updateDisplayModelIfGrown(interaction);
+                    updatePlantStage(interaction);
 
-                        // Larger burst of particles for the final stage
-                        Location particleLoc = interaction.getLocation().add(0, 0.5, 0);
+                    Location particleLoc = interaction.getLocation().add(0, 0.5, 0);
+                    int stage = pdc.getOrDefault(stageKey, PersistentDataType.INTEGER, 0);
+
+                    if (stage >= 3) {
                         interaction.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, particleLoc, 20, 0.25, 0.5, 0.25, 0.05);
                     } else {
-                        // 1st or 2nd bonemeal: just save the new stage counter
-                        pdc.set(bonemealStageKey, PersistentDataType.INTEGER, currentStage);
-
-                        // Standard feedback particles for partial growth
-                        Location particleLoc = interaction.getLocation().add(0, 0.5, 0);
                         interaction.getWorld().spawnParticle(Particle.HAPPY_VILLAGER, particleLoc, 8, 0.2, 0.4, 0.2, 0.05);
                     }
 
@@ -191,20 +185,29 @@ public class InteractionItemListener implements Listener {
         }
     }
 
-    private void updateDisplayModelIfGrown(Interaction interaction) {
+    private void updatePlantStage(Interaction interaction) {
         PersistentDataContainer pdc = interaction.getPersistentDataContainer();
         if (!pdc.has(displayUuidKey, PersistentDataType.STRING)) return;
 
-        long creationTime = pdc.getOrDefault(timeKey, PersistentDataType.LONG, 0L);
-        long currentTime = interaction.getWorld().getFullTime();
-        long oneMinecraftDay = 24000L;
+        long creationTime = pdc.getOrDefault(timeKey, PersistentDataType.LONG, interaction.getWorld().getFullTime());
+        long elapsedTicks = interaction.getWorld().getFullTime() - creationTime;
 
-        if (currentTime - creationTime >= oneMinecraftDay) {
+        int targetStage = Math.min(3, (int) (elapsedTicks / 8000L));
+        int currentStage = pdc.getOrDefault(stageKey, PersistentDataType.INTEGER, 0);
+
+        if (targetStage > currentStage) {
+            pdc.set(stageKey, PersistentDataType.INTEGER, targetStage);
+
+            if (targetStage >= 2) {
+                interaction.setInteractionHeight(2.0f);
+            }
+
             try {
                 UUID oldDisplayUuid = UUID.fromString(pdc.get(displayUuidKey, PersistentDataType.STRING));
                 Entity oldTarget = interaction.getWorld().getEntity(oldDisplayUuid);
 
                 if (oldTarget instanceof ItemDisplay oldDisplay) {
+                    // ADJUSTED: Replaced items automatically inherit the raised Y value from the old display's position
                     Location spawnLoc = oldDisplay.getLocation();
                     oldDisplay.remove();
 
@@ -212,7 +215,13 @@ public class InteractionItemListener implements Listener {
                         ItemStack updatedModel = new ItemStack(Material.PAPER);
                         var meta = updatedModel.getItemMeta();
                         if (meta != null) {
-                            meta.setItemModel(new NamespacedKey("content_warning", "hemp_flowering_block"));
+                            String modelName = switch (targetStage) {
+                                case 1 -> "hemp_small_stage1_block";
+                                case 2 -> "hemp_block";
+                                case 3 -> "hemp_flowering_block";
+                                default -> "hemp_small_stage0_block";
+                            };
+                            meta.setItemModel(new NamespacedKey("content_warning", modelName));
                             updatedModel.setItemMeta(meta);
                         }
                         display.setItemStack(updatedModel);
@@ -226,10 +235,6 @@ public class InteractionItemListener implements Listener {
 
     private void handleDropAndRemoval(Interaction interaction) {
         PersistentDataContainer pdc = interaction.getPersistentDataContainer();
-        long creationTime = pdc.getOrDefault(timeKey, PersistentDataType.LONG, 0L);
-        long currentTime = interaction.getWorld().getFullTime();
-        long oneMinecraftDay = 24000L;
-
         Location dropLocation = interaction.getLocation();
 
         if (pdc.has(displayUuidKey, PersistentDataType.STRING)) {
@@ -242,7 +247,9 @@ public class InteractionItemListener implements Listener {
             } catch (IllegalArgumentException ignored) {}
         }
 
-        if (currentTime - creationTime >= oneMinecraftDay) {
+        int currentStage = pdc.getOrDefault(stageKey, PersistentDataType.INTEGER, 0);
+
+        if (currentStage >= 3) {
             if (ItemManager.hemp != null) {
                 dropLocation.getWorld().dropItemNaturally(dropLocation, ItemManager.hemp.clone());
             }
