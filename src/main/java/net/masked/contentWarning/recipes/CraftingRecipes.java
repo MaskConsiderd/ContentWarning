@@ -12,31 +12,26 @@ public class CraftingRecipes {
 
     public static void register(JavaPlugin plugin) {
         // Validation safeguard to ensure items exist before building the recipe
-        if (ItemManager.marijuana == null || ItemManager.cubanCigar == null) {
+        if (ItemManager.cigar == null || ItemManager.cubanCigar == null) {
             return;
         }
 
         // Unique identifier for the crafting recipe
-        NamespacedKey recipeKey = new NamespacedKey(plugin, "magic_item_crafting");
+        NamespacedKey cubanCigarKey = new NamespacedKey(plugin, "cuban_cigar_crafting");
 
         // Create the Shaped Recipe with the output item
-        ShapedRecipe recipe = new ShapedRecipe(recipeKey, ItemManager.cubanCigar);
+        ShapedRecipe recipe = new ShapedRecipe(cubanCigarKey, ItemManager.cubanCigar);
 
-        // Define the 3x3 crafting grid pattern (3 rows of strings)
-        // 'P' represents Paper, 'M' represents marijuana, and ' ' is an empty slot
         recipe.shape(
-                "GPG",
-                "PMP",
-                "GPG"
+                "GGG",
+                "GCG",
+                "GGG"
         );
 
         // Map the characters to their corresponding items
-        recipe.setIngredient('P', Material.PAPER);
+        recipe.setIngredient('C', new RecipeChoice.ExactChoice(ItemManager.cigar));
 
         recipe.setIngredient('G', Material.GOLD_INGOT);
-
-        // Use ExactChoice for the custom ingredient to respect item components, models, and metadata
-        recipe.setIngredient('M', new RecipeChoice.ExactChoice(ItemManager.marijuana));
 
         // Register the recipe with the server
         Bukkit.addRecipe(recipe);
