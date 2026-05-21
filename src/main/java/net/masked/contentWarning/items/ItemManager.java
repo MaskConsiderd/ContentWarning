@@ -134,6 +134,12 @@ public class ItemManager {
             meta.setItemModel(shroomsKey);
             item.setItemMeta(meta);
         }
+
+        item.setData(DataComponentTypes.MAX_STACK_SIZE, 16);
+        item.setData(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .consumeSeconds(3.0f)
+                .build());
+
         shrooms = item;
     }
 
