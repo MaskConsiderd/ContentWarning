@@ -31,6 +31,7 @@ public class BlockDropListener implements Listener {
                 // Ensure the item exists before dropping
                 if (ItemManager.hempSeeds != null) {
                     block.getWorld().dropItemNaturally(block.getLocation(), ItemManager.hempSeeds.clone());
+
                 }
             }
         }
