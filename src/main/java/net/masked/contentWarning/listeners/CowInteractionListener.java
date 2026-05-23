@@ -16,7 +16,7 @@ public class CowInteractionListener implements Listener {
 
     @EventHandler
     public void onCowInteract(PlayerInteractEntityEvent event) {
-        // Prevent the event from firing twice (once for main hand, once for off-hand)
+        // Prevent the event from firing twice (once for the main-hand, once for thr off-hand)
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
         }

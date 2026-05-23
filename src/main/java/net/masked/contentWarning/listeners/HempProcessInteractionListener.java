@@ -9,7 +9,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace; // Added import
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
@@ -31,14 +31,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Collection;
 import java.util.UUID;
 
-public class InteractionItemListener implements Listener {
+public class HempProcessInteractionListener implements Listener {
 
     private final NamespacedKey timeKey;
     private final NamespacedKey typeKey;
     private final NamespacedKey displayUuidKey;
     private final NamespacedKey stageKey;
 
-    public InteractionItemListener(JavaPlugin plugin) {
+    public HempProcessInteractionListener(JavaPlugin plugin) {
         this.timeKey = new NamespacedKey(plugin, "creation_time");
         this.typeKey = new NamespacedKey(plugin, "interaction_type");
         this.displayUuidKey = new NamespacedKey(plugin, "display_uuid");

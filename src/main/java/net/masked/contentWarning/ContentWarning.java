@@ -1,8 +1,8 @@
 package net.masked.contentWarning;
 
 import net.masked.contentWarning.items.ItemManager;
-import net.masked.contentWarning.commands.GetContentWarningItems;
-import net.masked.contentWarning.listeners.SmokingListener;
+import net.masked.contentWarning.commands.ContentWarningCommand;
+import net.masked.contentWarning.listeners.HempProcessInteractionListener;
 import net.masked.contentWarning.tasks.SmokingTask;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,14 +16,14 @@ public final class ContentWarning extends JavaPlugin {
         ItemManager.init();
 
         // commands
-        this.getCommand("get_content_warning_items").setExecutor(new GetContentWarningItems());
+        this.getCommand("contentwarning").setExecutor(new net.masked.contentWarning.commands.ContentWarningCommand());
 
         // tasks
         new SmokingTask().runTaskTimer(this, 0L, 15L);
 
         // listeners
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.BlockDropListener(), this);
-        this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.InteractionItemListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.HempProcessInteractionListener(this), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.SmokingListener(), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CowInteractionListener(), this);
         this.getServer().getPluginManager().registerEvents(new net.masked.contentWarning.listeners.CowFecesMushroomListener(this), this);

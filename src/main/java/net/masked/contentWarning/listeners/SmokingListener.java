@@ -153,10 +153,7 @@ public class SmokingListener implements Listener {
             player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 3 * 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 3 * 20, 0));
             player.addPotionEffect(new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 1, 1));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, 20 * 20, 2));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 20 * 20, 2));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH, 20 * 20, 2));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 20, 2));
 
             // Gives the Cigar Butt
             if (ItemManager.cigarButt != null) {

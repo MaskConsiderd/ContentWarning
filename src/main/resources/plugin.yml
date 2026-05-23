@@ -1,10 +1,13 @@
 name: ContentWarning
-version: '0.1-SNAPSHOT'
+version: '0.2-SNAPSHOT'
 main: net.masked.contentWarning.ContentWarning
-api-version: '1.21'
+api-version: '26.1'
 authors: [Futhark (Forgotten_Devil)]
-description: Adds some things that probably shouldn't be in any Minecraft server
+description: From Marijuana to Shrooms, this adds everything in between
 commands:
-  get_content_warning_items:
-    description: Gives the player the custom sword.
-    permission: contentwarning.get_content_warning_items
+  contentwarning:
+    description: "Main command in the plugin"
+    usage: "/contentwarning [items all]"
+    aliases: [cw, contwarn]
+    permission: permission.contentwarning
+    permission-message: "You don't have permission to use this command"

@@ -6,13 +6,13 @@
 
   <groupId>net.masked</groupId>
   <artifactId>content-warning</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT-26.1.2-paper</version>
   <packaging>jar</packaging>
 
   <name>content-warning</name>
 
   <properties>
-    <java.version>21</java.version>
+    <java.version>25</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -51,17 +51,17 @@
   </build>
 
   <repositories>
-      <repository>
-        <id>papermc-repo</id>
-        <url>https://repo.papermc.io/repository/maven-public/</url>
-      </repository>
+    <repository>
+      <id>papermc-repo</id>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
+    </repository>
   </repositories>
 
   <dependencies>
     <dependency>
       <groupId>io.papermc.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.21.11-R0.1-SNAPSHOT</version>
+      <version>[26.1.2.build,)</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
