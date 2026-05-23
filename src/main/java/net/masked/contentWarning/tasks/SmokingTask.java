@@ -20,7 +20,7 @@ public class SmokingTask extends BukkitRunnable {
                 ItemStack item = player.getActiveItem();
 
                 // Check if the held item is the Cuban Cigar
-                if (item != null && item.isSimilar(ItemManager.cubanCigar)) {
+                if (item != null && item.equals(ItemManager.cubanCigar)) {
 
                     // NEW: Check if the off-hand is holding Flint and Steel
                     ItemStack offHandItem = player.getInventory().getItemInOffHand();
@@ -43,7 +43,7 @@ public class SmokingTask extends BukkitRunnable {
                     );
                 }
                 // Check if the held item is the Cigar
-                if (item != null && item.isSimilar(ItemManager.cigar)) {
+                if (item != null && item.equals(ItemManager.cigar)) {
 
                     // NEW: Check if the off-hand is holding Flint and Steel
                     ItemStack offHandItem = player.getInventory().getItemInOffHand();

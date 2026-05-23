@@ -32,7 +32,7 @@ public class SmokingListener implements Listener {
         ItemStack item = event.getItem();
 
         // Check if the item being right-clicked is the Cuban Cigar
-        if (item != null && item.isSimilar(ItemManager.cubanCigar)) {
+        if (item != null && item.equals(ItemManager.cubanCigar)) {
             ItemStack offHandItem = player.getInventory().getItemInOffHand();
 
             // Cancel the event immediately if the off-hand is not holding flint and steel
@@ -48,7 +48,7 @@ public class SmokingListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (item.isSimilar(ItemManager.cubanCigar)) {
+        if (item.equals(ItemManager.cubanCigar)) {
 
             // Double-check condition upon completion (in case they swap items mid-animation)
             ItemStack offHandItem = player.getInventory().getItemInOffHand();
@@ -109,7 +109,7 @@ public class SmokingListener implements Listener {
         ItemStack item = event.getItem();
 
         // Check if the item being right-clicked is the Cuban Cigar
-        if (item != null && item.isSimilar(ItemManager.cigar)) {
+        if (item != null && item.equals(ItemManager.cigar)) {
             ItemStack offHandItem = player.getInventory().getItemInOffHand();
 
             // Cancel the event immediately if the off-hand is not holding flint and steel
@@ -125,7 +125,7 @@ public class SmokingListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (item.isSimilar(ItemManager.cigar)) {
+        if (item.equals(ItemManager.cigar)) {
 
             // Double-check condition upon completion (in case they swap items mid-animation)
             ItemStack offHandItem = player.getInventory().getItemInOffHand();

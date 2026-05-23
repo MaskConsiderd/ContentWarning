@@ -21,6 +21,7 @@ public class ItemManager {
     public static ItemStack shrooms;
     public static ItemStack cigar;
     public static ItemStack cigarButt;
+    public static ItemStack cocaine;
 
     // Registers the items
     public static void init() {
@@ -33,6 +34,7 @@ public class ItemManager {
         createShrooms();
         createCigar();
         createCigarButt();
+        createCocaine();
     }
 
     // Adds data to the Cuban Cigar
@@ -178,5 +180,28 @@ public class ItemManager {
             item.setItemMeta(meta);
         }
         cigarButt = item;
+    }
+
+    // Adds data to the Cocaine
+    private static void createCocaine() {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            NamespacedKey cocaineKey = new NamespacedKey("content_warning", "cocaine_powder");
+            meta.displayName(Component.text("Cocaine Powder").decoration(TextDecoration.ITALIC, false));
+            meta.setItemModel(cocaineKey);
+            item.setItemMeta(meta);
+        }
+
+        NamespacedKey sniffSoundKey = new NamespacedKey("content_warning", "custom.sniff_item");
+        item.setData(DataComponentTypes.CONSUMABLE, Consumable.consumable()
+                .consumeSeconds(4.0f)
+                .hasConsumeParticles(true)
+                .sound(sniffSoundKey)
+                .build());
+
+        item.setData(DataComponentTypes.MAX_STACK_SIZE, 16);
+        cocaine = item;
     }
 }

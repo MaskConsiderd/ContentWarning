@@ -35,6 +35,7 @@ public class ContentWarningCommand implements CommandExecutor {
             player.getInventory().addItem(ItemManager.marijuana);
             player.getInventory().addItem(ItemManager.shrooms);
             player.getInventory().addItem(ItemManager.cowFeces);
+            player.getInventory().addItem(ItemManager.cocaine);
 
             player.sendMessage(Component.text("Items received!", NamedTextColor.GREEN));
             return true;
