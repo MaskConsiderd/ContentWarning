@@ -2,6 +2,3 @@ This is a Minecraft paper server plugin for 26.1.2. This is intended
 to be used on the Minecraft server Lumenor.
 
 ![ContentWarning](https://i.imgur.com/EfczCXH.png)
-
-If you want to use this plugin on your own Minecraft server MESSAGE ME at
-Masked404.lol@gmail.com

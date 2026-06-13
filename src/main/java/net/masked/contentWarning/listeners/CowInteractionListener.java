@@ -1,3 +1,4 @@
+/*
 package net.masked.contentWarning.listeners;
 
 import net.masked.contentWarning.items.ItemManager;
@@ -46,3 +47,4 @@ public class CowInteractionListener implements Listener {
         }
     }
 }
+ */

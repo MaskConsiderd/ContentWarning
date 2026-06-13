@@ -1,4 +1,4 @@
-package net.masked.contentWarning.listeners;
+/* package net.masked.contentWarning.listeners;
 
 import net.masked.contentWarning.items.ItemManager;
 import org.bukkit.Bukkit;
@@ -266,3 +266,4 @@ public class CowFecesMushroomListener implements Listener {
         interaction.remove();
     }
 }
+ */
